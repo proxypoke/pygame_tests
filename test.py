@@ -13,34 +13,42 @@ RIGHT = 2
 UP = 3
 
 WIDTH, HEIGHT = 160, 120
+BG_COLOR = (0, 0, 0)
+
+SPRITE_WIDTH = 32
+SPRITE_HEIGHT = 48
 
 
 def get_sprite_gen(spritemap, player, direction):
     if not direction in (LEFT, RIGHT, UP, DOWN):
         raise ValueError("Invalid direction.")
-    height = direction * 48
+    height = direction * SPRITE_HEIGHT
 
     pos = player.get_offset()
     while True:
-        pos = pygame.Rect(((pos[0] + 32) % 128, height),
+        pos = pygame.Rect(((pos[0] + SPRITE_WIDTH) % 128, height),
                           player.get_size())
         yield spritemap.subsurface(pos)
 
 
 def main():
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    screen.fill(BG_COLOR)
 
     # load the spritemap and set the player surface to an initial value
     spritemap = pygame.image.load('KOS-MOS_spritemap.bmp').convert()
-    spritepos = pygame.Rect(0, 0, 32, 48)
+    # set #FF00FF as the transparent color
+    spritemap.set_colorkey((255, 0, 255))
+    spritepos = pygame.Rect(0, 0, SPRITE_WIDTH, SPRITE_HEIGHT)
     player = spritemap.subsurface(spritepos)
     position = player.get_rect()
     screen.blit(player, position)
 
     # create a background and set it
-    background = pygame.image.frombuffer(
-        '0' * HEIGHT * WIDTH, (WIDTH, HEIGHT), "P")
-    screen.blit(background, (0, 0))
+    #background = screen.fill((255,255,255))
+    #background = pygame.image.frombuffer(
+        #'0' * HEIGHT * WIDTH, (WIDTH, HEIGHT), "P")
+    #screen.blit(background, (0, 0))
 
     pygame.display.update()
 
@@ -54,7 +62,7 @@ def main():
                 exit(0)
 
         # erase the screen
-        screen.blit(background, position, position)
+        screen.fill(BG_COLOR, position)
 
         # take the next sprite
         player = next(sprite)
