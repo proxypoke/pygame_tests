@@ -1,8 +1,12 @@
 #! /usr/bin/env python2
 # -*- coding: utf-8 -*-
 
+# Author: slowpoke <mail+git@slowpoke.io>
+#
+# This program is free software under the non-terms
+# of the Anti-License. Do whatever the fuck you want.
+
 import pygame
-from pygame.locals import *
 
 pygame.init()
 
@@ -17,6 +21,8 @@ BG_COLOR = (0, 0, 0)
 
 SPRITE_WIDTH = 32
 SPRITE_HEIGHT = 48
+
+ARROW_KEYS = (pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN)
 
 
 def get_sprite_gen(spritemap, player, direction):
@@ -57,8 +63,9 @@ def main():
 
     while NotImplemented:
         for event in pygame.event.get():
-            if (event.type is QUIT or
-                    (event.type is KEYDOWN and event.scancode == 66)):  # ESC
+            print(event)
+            if (event.type is pygame.QUIT or
+                    (event.type is pygame.KEYDOWN and event.scancode == 66)):
                 exit(0)
 
         # erase the screen
